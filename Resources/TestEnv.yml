@@ -1,0 +1,18 @@
+admin:
+  auth_url: https://api.testenv.printix.net/v1/tenants
+  tenant: apitest
+  tenant_id: 13291956-cf6b-4700-89ae-4a3003271716
+  network_id: a472b852-b3c2-4121-bb9c-058665ef73c1
+  username: apitestadmin@printix.net
+  password: icitZPD0He09
+  token_url: https://api.testenv.printix.net/v1/enumerations 
+  response_type: code
+  client_id: testing
+  client_secret: thehouseisonfire
+  redirect_uri: https://auth.testenv.printix.net
+  grant_type: authorization_code
+  environment: devenv
+  auth_token_url: https://auth.testenv.printix.net/oauth/authorize/tenant/apitest.testenv.printix.net?response_type=code&client_id=testing&client_secret=thehouseisonfire&redirect_uri=https://auth.testenv.printix.net
+user:
+  username: 
+  password: 
