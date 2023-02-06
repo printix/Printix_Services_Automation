@@ -11,7 +11,7 @@ admin:
   client_secret: thehouseisonfire
   redirect_uri: https://auth.testenv.printix.net
   grant_type: authorization_code
-  environment: devenv
+  environment: testenv
   auth_token_url: https://auth.testenv.printix.net/oauth/authorize/tenant/apitest.testenv.printix.net?response_type=code&client_id=testing&client_secret=thehouseisonfire&redirect_uri=https://auth.testenv.printix.net
 user:
   username: 

@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.ERROR)
 mylogger = logging.getLogger()
 #Global variables Declaration
-InEnvironment="dev"  # "dev" "test" "usdev"
+InEnvironment="test"  # "test" "test" "usdev"
 __auth01=__auth02=__auth03=None
 if InEnvironment=="dev":
     __url=devData()['admin']['auth_url']
@@ -29,13 +29,16 @@ elif InEnvironment=="test":
     __username=testData()['admin']['username']
     __password=testData()['admin']['password']
     __env=testData()['admin']['environment']
-    __tenantId=devData()['admin']['tenant_id']
+    __tenantId=testData()['admin']['tenant_id']
 
 
 @allure.title("TESTCASE-T100-Get-Printix-Authentication Code")
+@allure.description("Test T100")
 @pytest.mark.order(1)
 @pytest.mark.smoke
+@pytest.mark.suneetha
 def testGetauthenticationCode():
+    mylogger.info("input is: "+__url)
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
 
