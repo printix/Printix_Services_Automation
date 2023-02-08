@@ -14,7 +14,8 @@ logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.ERROR)
 mylogger = logging.getLogger()
 #Global variables Declaration
-InEnvironment="test"  # "test" "test" "usdev"
+InEnvironment="dev"  # "dev" "test" "usdev"
+__network_id=None
 __auth01=__auth02=__auth03=None
 if InEnvironment=="dev":
     __url=devData()['admin']['auth_url']
@@ -36,7 +37,7 @@ elif InEnvironment=="test":
 @allure.description("Test T100")
 @pytest.mark.order(1)
 @pytest.mark.smoke
-@pytest.mark.suneetha
+@pytest.mark.regression
 def testGetauthenticationCode():
     mylogger.info("input is: "+__url)
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
@@ -58,7 +59,8 @@ def testGetUsersList():
 def testGetNetworksList():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
-    networks.get_list_networks(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
+    __network_names=networks.get_list_networks(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
+    logging.info(f"list of Netowrk names in tenant: {__network_names}")
 
 
 @allure.title("TESTCASE-T103-Get-Tenant-Workstations-List")
@@ -77,4 +79,29 @@ def testGetTenantsList():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     workstations.get_list_workstations(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
+
+@allure.title("TESTCASE-T105-Add-Network-Name")
+@pytest.mark.order(6)
+@pytest.mark.bugfix
+def testAddNetworkName():
+    authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
+    mylogger.info("Authentication code: "+authentication_code)
+    #add network name   =  "Kofax_Network_Date_Random number"
+    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="printix_nt_dk_herlev_080223")
+    logging.info(f"netowrk id is added : {__network_id}")
+
+
+@allure.title("TESTCASE-T10X-delete-Network")
+@pytest.mark.order(6)
+@pytest.mark.smoke
+def testDeleteNetwork():
+    authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
+    mylogger.info("Authentication code: "+authentication_code)
+    #add network 
+    networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
+    #fetch network id based on network name
+    __network_id_list=networks.get_list_network_ids(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
+    logging.info(__network_id)
+    #delete network based on ID or ID's.
+    #networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="printix_nt_dk_herlev_080223")
 
