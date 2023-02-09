@@ -71,7 +71,7 @@ def add_network_Name(**kwargs):
 
 def delete_network(**kwargs):
     ''''Delete network'''
-    __network_id_list=[]
+
     for key, value in kwargs.items():
         if key=="url":
             __url=value
@@ -80,25 +80,14 @@ def delete_network(**kwargs):
         elif key=="tenant_id":
             __tenant_id=value
         elif key=="network_id":
-            __network_id_list.append(value)
+            __network_id=value
         else:
-            logging.warning(f"Failed to validate network name: {value}")
+            logging.warning(f" unknown input in get list of networks: {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
-       
-        __size= len(__network_id_list)
-        #map the network id to delete network
-        logging.info(f"input size of network id's list to delete: {__size}")
-        for i in range(__size):
-            if __network_id_list[i] ==None:
-                logging.error(f"invalid network id from input list.")
-                raise TypeError
-            else:
-                __url=__url+"/"+__tenant_id+"/networks/"+str(__network_id_list[i])
-                #__url=__url+"/"+__tenant_id+"/networks/"+"71eaa2f0-5d24-40e8-ab26-4145cd74cbb9"
-                resp=ApiBaseFns.deleteMethod(__url,__auth_code)
-                assert resp.status_code ==200
-        logging.info(f"End of delete_network method")
+    url_id=__url+"/"+__tenant_id+"/networks/"+__network_id    
+    resp=ApiBaseFns.deleteMethod(url_id,__auth_code)
+    assert resp.status_code ==200
 
 def get_list_network_ids(**kwargs):
     '''List of users in tenant'''

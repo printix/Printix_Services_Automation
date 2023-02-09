@@ -19,5 +19,5 @@ def postMethod(url,auth_id,indata):
 def deleteMethod(url,auth_id):
     '''delete request'''
     resp= requests.delete(url, headers =  {"Content-Type":"application/json", "Authorization": f"Bearer {auth_id}"}) 
-    #logging.info(f"status of Delete Method: {resp.status_code}")
+    logging.info(f"status of Delete url: {url} & status code : {resp.status_code}")
     return resp

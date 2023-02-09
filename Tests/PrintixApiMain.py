@@ -82,19 +82,19 @@ def testGetTenantsList():
 
 @allure.title("TESTCASE-T105-Add-Network-Name")
 @pytest.mark.order(6)
-@pytest.mark.bugfix
+@pytest.mark.smoke
 def testAddNetworkName():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network name   =  "Kofax_Network_Date_Random number"
     __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="printix_nt_dk_herlev_080223")
-    logging.info(f"netowrk id is added : {__network_id}")
+    logging.info(f"network id is added : {__network_id}")
 
 
-@allure.title("TESTCASE-T10X-delete-Network")
+@allure.title("TESTCASE-T106-delete-Network")
 @pytest.mark.order(6)
 @pytest.mark.bugfix
-def testDeleteNetwork():
+def testDeleteNetwor():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network 
@@ -102,7 +102,10 @@ def testDeleteNetwork():
     logging.info(f" currently added network name is : {__network_id}")
     #fetch network id based on network name
     __network_id_list=networks.get_list_network_ids(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
-    logging.info(f"network id is : {__network_id_list}")
     #delete network based on ID or ID's.
-    networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_id=__network_id_list)
+    __size= len(__network_id_list)
+        #map the network id to delete network
+    for i in range(__size):
+        networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_id=__network_id_list[i])
+    logging.info(f"End of delete_network method")
 
