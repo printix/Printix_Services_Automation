@@ -104,5 +104,5 @@ def testDeleteNetwork():
     __network_id_list=networks.get_list_network_ids(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
     logging.info(f"network id is : {__network_id_list}")
     #delete network based on ID or ID's.
-    networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,__network_id=__network_id_list)
+    networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_id=__network_id_list)
 

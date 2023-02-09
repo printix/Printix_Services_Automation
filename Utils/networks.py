@@ -79,21 +79,22 @@ def delete_network(**kwargs):
             __auth_code=value
         elif key=="tenant_id":
             __tenant_id=value
-        elif key=="__network_id":
-            __network_id_list=value
+        elif key=="network_id":
+            __network_id_list.append(value)
         else:
             logging.warning(f"Failed to validate network name: {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
+       
         __size= len(__network_id_list)
         #map the network id to delete network
-        logging.info(f"size of network id's list to delete: {__size}")
+        logging.info(f"input size of network id's list to delete: {__size}")
         for i in range(__size):
             if __network_id_list[i] ==None:
                 logging.error(f"invalid network id from input list.")
                 raise TypeError
             else:
-                __url=__url+"/"+__tenant_id+"/networks/"+__network_id_list[i]
+                __url=__url+"/"+__tenant_id+"/networks/"+str(__network_id_list[i])
                 #__url=__url+"/"+__tenant_id+"/networks/"+"71eaa2f0-5d24-40e8-ab26-4145cd74cbb9"
                 resp=ApiBaseFns.deleteMethod(__url,__auth_code)
                 assert resp.status_code ==200
@@ -132,7 +133,7 @@ def get_list_network_ids(**kwargs):
             __bef_network =__network_id.split("/networks/")[1]
             __after_network = __bef_network.split("/discoverEnvironment")[0]
             __outName=repr(resp.json()['_embedded']['px:networkResources'][i]['name'])[1:-1]
-            if(str(__outName)==str(__network_name)):
+            if(str(__outName).__eq__(str(__network_name))):
                 __network_ids_list.append(__after_network)
     #get network_id to the list __network_ids_list
     #logging.info(f"list of network id's: {__network_ids_list}")
