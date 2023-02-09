@@ -14,8 +14,8 @@ logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.ERROR)
 mylogger = logging.getLogger()
 #Global variables Declaration
-InEnvironment="dev"  # "dev" "test" "usdev"
-__network_id=None
+InEnvironment="test"  # "dev" "test" "usdev"
+__network_id=[]
 __auth01=__auth02=__auth03=None
 if InEnvironment=="dev":
     __url=devData()['admin']['auth_url']
@@ -93,15 +93,16 @@ def testAddNetworkName():
 
 @allure.title("TESTCASE-T10X-delete-Network")
 @pytest.mark.order(6)
-@pytest.mark.smoke
+@pytest.mark.bugfix
 def testDeleteNetwork():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network 
-    networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
+    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
+    logging.info(f" currently added network name is : {__network_id}")
     #fetch network id based on network name
     __network_id_list=networks.get_list_network_ids(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
-    logging.info(__network_id)
+    logging.info(f"network id is : {__network_id_list}")
     #delete network based on ID or ID's.
-    #networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="printix_nt_dk_herlev_080223")
+    #networks.delete_network(url=__url,Authorization=authentication_code,tenant_id=__tenantId,__network_id=__network_id_list)
 

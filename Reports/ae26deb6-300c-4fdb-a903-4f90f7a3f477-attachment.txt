@@ -1,2 +1,0 @@
-[32mINFO    [0m root:HelloWorld.py:19 Get List of petids available
-[33mWARNING [0m root:HelloWorld.py:20 Get List of petids available1
