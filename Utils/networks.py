@@ -118,7 +118,7 @@ def get_list_network_ids(**kwargs):
             TypeError
     __url=__url+"/"+__tenant_id+"/networks"
     resp=ApiBaseFns.getMethod(__url,__auth_code)
-
+    #logging.info(f"network output: {resp.json()}")
     size=len(resp.json()['_embedded']['px:networkResources'])
     #logging.info(f"size of the response is: {size}")
     for i in range(size):
@@ -126,12 +126,14 @@ def get_list_network_ids(**kwargs):
             logging.error(f"empty project name from response body")
             raise TypeError
         else:
-            logging.info(f"Network Name {i} is: {resp.json()['_embedded']['px:networkResources'][i]['name']}")
+            #logging.info(f"Network Name {i} is: {resp.json()['_embedded']['px:networkResources'][i]['name']}")
             __network_content.append(resp.json()['_embedded']['px:networkResources'][i]['name'])
             __network_id=resp.json()['_embedded']['px:networkResources'][i]['_links']['px:discoverEnvironment']['href']
             __bef_network =__network_id.split("/networks/")[1]
-            if({str(resp.json()['_embedded']['px:networkResources'][i]['name'])}==__network_name):
-                __network_ids_list.append(__bef_network.split("/discoverEnvironment")[0])
+            __after_network = __bef_network.split("/discoverEnvironment")[0]
+            __outName=repr(resp.json()['_embedded']['px:networkResources'][i]['name'])[1:-1]
+            if(str(__outName)==str(__network_name)):
+                __network_ids_list.append(__after_network)
     #get network_id to the list __network_ids_list
-    logging.info(f"list of network id's: {__network_ids_list}")
+    #logging.info(f"list of network id's: {__network_ids_list}")
     return __network_ids_list
