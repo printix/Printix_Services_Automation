@@ -39,7 +39,6 @@ elif InEnvironment=="test":
     __ip=testData()['admin']['ip']
     __mac=testData()['admin']['mac']
 
-
 @allure.title("TESTCASE-T100-Get-Printix-Authentication Code")
 @allure.description("Test T100")
 @pytest.mark.order(1)
