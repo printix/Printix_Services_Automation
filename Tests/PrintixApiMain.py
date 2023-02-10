@@ -46,7 +46,12 @@ elif InEnvironment=="test":
 @pytest.mark.smoke
 @pytest.mark.regression
 def testGetauthenticationCode():
-    mylogger.info("input is: "+__url)
+    #################################################################################
+    # Get Authentication based on Environment
+    # Assert Status_Code from the response
+    #################################################################################
+    
+    mylogger.info("input url: "+__url)
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
 
@@ -54,6 +59,12 @@ def testGetauthenticationCode():
 @pytest.mark.order(2)
 @pytest.mark.smoke
 def testGetUsersList():
+    #################################################################################
+    # Get Authentication based on Environment
+    # Get Tenant users list
+    # Assert Status_Code from the response
+    #################################################################################
+    
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     tenantusers.get_list_users(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
@@ -63,6 +74,11 @@ def testGetUsersList():
 @pytest.mark.order(3)
 @pytest.mark.smoke
 def testGetNetworksList():
+    #################################################################################
+    # Get Authentication based on Environment
+    # Get Tenant network list
+    # Assert Status_Code from the response
+    #################################################################################
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     __network_names=networks.get_list_networks(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
@@ -73,6 +89,11 @@ def testGetNetworksList():
 @pytest.mark.order(4)
 @pytest.mark.smoke
 def testGetWorkstationsList():
+    #################################################################################
+    # Get Authentication based on Environment
+    # Get Tenant workstations list
+    # Assert Status_Code from the response
+    #################################################################################
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     workstations.get_list_workstations(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
@@ -82,6 +103,11 @@ def testGetWorkstationsList():
 @pytest.mark.regression 
 @pytest.mark.smoke
 def testGetTenantsList():
+    #################################################################################
+    # Get Authentication based on Environment
+    # Get Tenants list
+    # Assert Status_Code from the response
+    #################################################################################
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     workstations.get_list_workstations(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
@@ -90,6 +116,11 @@ def testGetTenantsList():
 @pytest.mark.order(6)
 @pytest.mark.smoke
 def testAddNetworkName():
+    #################################################################################
+    # Get Authentication based on Environment
+    # Add Network name
+    # Assert Status_Code from the response
+    #################################################################################
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network name   =  "Kofax_Network_Date_Random number"
@@ -121,6 +152,12 @@ def testAddNetwork():
 @pytest.mark.order(11)
 @pytest.mark.smoke
 def testDeleteNetwork():
+    #################################################################################
+    # Get Authentication based on Environment
+    # Add Tenant Network
+    # Assert Status_Code from the response
+    # Delete list of Networks of same name
+    #################################################################################
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network 
