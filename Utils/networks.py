@@ -149,6 +149,13 @@ def add_network_gateway(**kwargs):
     __data = {'ip':__ip,'mac': __mac}
     resp=ApiBaseFns.patchMethod(__url,__auth_code,__data)
     logging.info(f"add network gate way response: {resp.status_code}")
+    if resp.status_code==200:
+        logging.info(f"Successfully added network gateway: {__data}")
+    elif resp.status_code==409:
+        logging.warning(f"duplicate network gateway, so not updated network gateway: {__data}")
+    else:
+        assert resp.status_code ==200
+
     #__network_id=resp.json()['_links']['px:discoverEnvironment']['href']
     #__bef_network =__network_id.split("/networks/")[1]
     #_after_network_id=__bef_network.split("/discoverEnvironment")[0]

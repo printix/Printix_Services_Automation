@@ -2,6 +2,9 @@ admin:
   auth_url: https://api.devenv.printix.net/v1/tenants
   tenant: apitest
   tenant_id: 0fa78aa8-1227-443d-81a6-1d98d7e9536b
+  network_name: Kofax_Dev
+  ip: 10.10.11.11
+  mac: 001727102804
   network_id: e9488225-c6fb-42fc-9e6d-7fa6cb08c301
   username: apitestadmin@printix.net
   password: Qwerty1234
