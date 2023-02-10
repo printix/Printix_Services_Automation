@@ -125,8 +125,8 @@ def get_list_network_ids(**kwargs):
 
 
 def add_network_gateway(**kwargs):
-    '''use network name to add the network gateway. ip address & mac address'''
-    '''Add new network to Tenant -  name, ip & mac'''
+    '''required : tenant_id, network_id, IP & MAC'''
+    '''PATCH method is required to updated the network name'''
     __network_id=None
     for key, value in kwargs.items():
         if key=="url":
@@ -135,8 +135,8 @@ def add_network_gateway(**kwargs):
             __auth_code=value
         elif key=="tenant_id":
             __tenant_id=value
-        elif key=="network_name":
-            __network_name=value
+        elif key=="network_id":
+            __network_id=value
         elif key=="IP":
             __ip=value
         elif key=="MAC":
@@ -145,10 +145,12 @@ def add_network_gateway(**kwargs):
             logging.warning(f"Failed to validate network gateway: {key} {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
-    __url=__url+"/"+__tenant_id+"/networks"
-    __data = {'name': __network_name}
-    resp=ApiBaseFns.postMethod(__url,__auth_code,__data)
-    __network_id=resp.json()['_links']['px:discoverEnvironment']['href']
-    __bef_network =__network_id.split("/networks/")[1]
-    _after_network_id=__bef_network.split("/discoverEnvironment")[0]
-    return _after_network_id
+    __url=__url+"/"+__tenant_id+"/networks/"+__network_id
+    __data = {'ip':__ip,'mac': __mac}
+    resp=ApiBaseFns.patchMethod(__url,__auth_code,__data)
+    logging.info(f"add network gate way response: {resp.status_code}")
+    #__network_id=resp.json()['_links']['px:discoverEnvironment']['href']
+    #__bef_network =__network_id.split("/networks/")[1]
+    #_after_network_id=__bef_network.split("/discoverEnvironment")[0]
+    #return _after_network_id
+    return resp

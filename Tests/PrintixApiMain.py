@@ -17,6 +17,8 @@ mylogger = logging.getLogger()
 InEnvironment="dev"  # "dev" "test" "usdev"
 __network_id=[]
 __auth01=__auth02=__auth03=None
+__netowrk_name="printix_nt_dk_herlev_080223"
+
 if InEnvironment=="dev":
     __url=devData()['admin']['auth_url']
     __auth=devData()['admin']['auth_token_url']
@@ -86,21 +88,33 @@ def testAddNetworkName():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network name   =  "Kofax_Network_Date_Random number"
-    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="printix_nt_dk_herlev_080223")
+    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name=__netowrk_name)
     logging.info(f"network id is added : {__network_id}")
 
-
-@allure.title("TESTCASE-T106-delete-Network")
-@pytest.mark.order(6)
+@allure.title("TESTCASE-T105-Add-Network-Name")
+@pytest.mark.order(7)
 @pytest.mark.smoke
+def testAddNetworkGateway():
+    authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
+    mylogger.info("Authentication code: "+authentication_code)
+    #add network name   =  "Kofax_Network_Date_Random number"
+    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name=__netowrk_name)
+    logging.info(f"Added network id : {__network_id} , netowrk_name : {__netowrk_name}")
+    #{{url}}/{{tenant_id}}/networks/{{network_id}}  required network_id. patch request
+    __network_gateway=networks.add_network_gateway(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_id=__network_id,IP="10.11.11.10",MAC="*")
+    logging.info(f"network gateway is added successfully: {__network_gateway}")
+
+@allure.title("TESTCASE-T112-delete-Network")
+@pytest.mark.order(11)
+@pytest.mark.bugfix
 def testDeleteNetwork():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network 
-    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
-    logging.info(f" currently added network name is : {__network_id}")
+    __network_id=networks.add_network_Name(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name=__netowrk_name)
+    logging.info(f" currently added network name is : {__netowrk_name}  & netowrk_id: {__network_id}")
     #fetch network id based on network name
-    __network_id_list=networks.get_list_network_ids(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name="1a1")
+    __network_id_list=networks.get_list_network_ids(url=__url,Authorization=authentication_code,tenant_id=__tenantId,network_name=__netowrk_name)
     #delete network based on ID or ID's.
     __size= len(__network_id_list)
         #map the network id to delete network
