@@ -27,7 +27,7 @@ def get_list_networks(**kwargs):
         elif key=="tenant_id":
             __tenant_id=value
         else:
-            logging.warning(f" unknown input in get list of networks: {value}")
+            logging.warning(f" unknown input in get list of networks: {key} {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
     __url=__url+"/"+__tenant_id+"/networks"
@@ -58,7 +58,7 @@ def add_network_Name(**kwargs):
         elif key=="network_name":
             __network_name=value
         else:
-            logging.warning(f"Failed to validate network name: {value}")
+            logging.warning(f"Failed to validate network name: {key}  {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
     __url=__url+"/"+__tenant_id+"/networks"
@@ -82,7 +82,7 @@ def delete_network(**kwargs):
         elif key=="network_id":
             __network_id=value
         else:
-            logging.warning(f" unknown input in get list of networks: {value}")
+            logging.warning(f" unknown input in get list of networks: {key} {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
     url_id=__url+"/"+__tenant_id+"/networks/"+__network_id    
@@ -103,20 +103,17 @@ def get_list_network_ids(**kwargs):
         elif key=="network_name":
             __network_name=value
         else:
-            logging.warning(f" unknown input in get list of networks: {value}")
+            logging.warning(f" unknown input in get list of networks:{key} {value}")
             logging.info(f"key is{key}, value is {value}")
             TypeError
     __url=__url+"/"+__tenant_id+"/networks"
     resp=ApiBaseFns.getMethod(__url,__auth_code)
-    #logging.info(f"network output: {resp.json()}")
     size=len(resp.json()['_embedded']['px:networkResources'])
-    #logging.info(f"size of the response is: {size}")
     for i in range(size):
         if resp.json()['_embedded']['px:networkResources'][i]['name'] ==None:
             logging.error(f"empty project name from response body")
             raise TypeError
         else:
-            #logging.info(f"Network Name {i} is: {resp.json()['_embedded']['px:networkResources'][i]['name']}")
             __network_content.append(resp.json()['_embedded']['px:networkResources'][i]['name'])
             __network_id=resp.json()['_embedded']['px:networkResources'][i]['_links']['px:discoverEnvironment']['href']
             __bef_network =__network_id.split("/networks/")[1]
@@ -124,6 +121,34 @@ def get_list_network_ids(**kwargs):
             __outName=repr(resp.json()['_embedded']['px:networkResources'][i]['name'])[1:-1]
             if(str(__outName).__eq__(str(__network_name))):
                 __network_ids_list.append(__after_network)
-    #get network_id to the list __network_ids_list
-    #logging.info(f"list of network id's: {__network_ids_list}")
     return __network_ids_list
+
+
+def add_network_gateway(**kwargs):
+    '''use network name to add the network gateway. ip address & mac address'''
+    '''Add new network to Tenant -  name, ip & mac'''
+    __network_id=None
+    for key, value in kwargs.items():
+        if key=="url":
+            __url=value
+        elif key=="Authorization":
+            __auth_code=value
+        elif key=="tenant_id":
+            __tenant_id=value
+        elif key=="network_name":
+            __network_name=value
+        elif key=="IP":
+            __ip=value
+        elif key=="MAC":
+            __mac=value    
+        else:
+            logging.warning(f"Failed to validate network gateway: {key} {value}")
+            logging.info(f"key is{key}, value is {value}")
+            TypeError
+    __url=__url+"/"+__tenant_id+"/networks"
+    __data = {'name': __network_name}
+    resp=ApiBaseFns.postMethod(__url,__auth_code,__data)
+    __network_id=resp.json()['_links']['px:discoverEnvironment']['href']
+    __bef_network =__network_id.split("/networks/")[1]
+    _after_network_id=__bef_network.split("/discoverEnvironment")[0]
+    return _after_network_id

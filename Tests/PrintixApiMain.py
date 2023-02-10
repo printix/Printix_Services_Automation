@@ -52,7 +52,6 @@ def testGetUsersList():
     tenantusers.get_list_users(url=__url,Authorization=authentication_code,tenant_id=__tenantId)
     
 
-
 @allure.title("TESTCASE-T102-Get-Tenant-Networks-List")
 @pytest.mark.order(3)
 @pytest.mark.smoke
@@ -93,8 +92,8 @@ def testAddNetworkName():
 
 @allure.title("TESTCASE-T106-delete-Network")
 @pytest.mark.order(6)
-@pytest.mark.bugfix
-def testDeleteNetwor():
+@pytest.mark.smoke
+def testDeleteNetwork():
     authentication_code = auth.getauthcodefns(__auth,__env,__username,__password)
     mylogger.info("Authentication code: "+authentication_code)
     #add network 

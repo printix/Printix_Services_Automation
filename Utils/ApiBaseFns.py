@@ -21,3 +21,6 @@ def deleteMethod(url,auth_id):
     resp= requests.delete(url, headers =  {"Content-Type":"application/json", "Authorization": f"Bearer {auth_id}"}) 
     logging.info(f"status of Delete url: {url} & status code : {resp.status_code}")
     return resp
+
+def putMethod():
+    '''update the existing data'''
